@@ -44,6 +44,7 @@ Enemy.prototype.render = function() {
 
 var Player = function() {
     this.sprite = 'images/enemy-bug.png';
+    this.spriteL = 'images-enemy-bug-left.png';
     this.draw();
     this.update();
 }
@@ -63,10 +64,10 @@ Player.prototype.render = function() {
 }
 
 Player.prototype.checkCollisions = function(dt) {
-    for(var i in allEnemies) {
-        if( Math.abs(this.x - allEnemies[i].x) <= 40
-         && Math.abs(this.y - allEnemies[i].y) <= 40) {
-            allEnemies[i].onCollision(this);    
+    for(var enemy in allEnemies) {
+        if( Math.abs(this.x - allEnemies[enemy].x) <= 40
+         && Math.abs(this.y - allEnemies[enemy].y) <= 40) {
+            allEnemies[enemy].onCollision(this);    
         }
     }
     
@@ -75,6 +76,7 @@ Player.prototype.checkCollisions = function(dt) {
 Player.prototype.handleInput = function(movement) {
     if (movement == 'left' && this.x > 0) 
         this.x = this.x - 101;
+        this.spriteL;
         // console.log('left');
     
     if (movement == 'right' && this.x < 400) 
