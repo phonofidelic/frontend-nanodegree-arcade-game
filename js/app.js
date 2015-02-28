@@ -56,7 +56,8 @@ var Player = function() {
     this.draw();
     this.update();
 }
-    
+
+//** initial player possition **    
 Player.prototype.draw = function() {
     this.x = 202;
     this.y = 390;
@@ -71,11 +72,12 @@ Player.prototype.render = function() {
 
 }
 
+//** reset player possition if collision is detected **
 Player.prototype.checkCollisions = function(dt) {
     for(var enemy in allEnemies) {
-        if( Math.abs(this.x - allEnemies[enemy].x) <= 40
-         && Math.abs(this.y - allEnemies[enemy].y) <= 40) {
-            allEnemies[enemy].onCollision(this);    
+        if( Math.abs(this.x - allEnemies[enemy].x) <= 80
+         && Math.abs(this.y - allEnemies[enemy].y) <= 60) {
+            this.draw();    
         }
     }
     
