@@ -7,14 +7,16 @@ var Enemy = function() {
     // a helper we've provided to easily load images
 
     this.sprite = 'images/char-boy.png';
+    this.yPos = [70, 150, 235];
     this.draw();
-    this.init();
+    this.speeds = [100, 200, 300];
+    // this.init();
 
 }
-
+//** initial emey location **
 Enemy.prototype.draw = function() {
     this.x = -101;
-    this.y = 70;
+    // this.y = this.yPos[Math.round(Math.random() * this.yPos.length)];
 }
 
 // Update the enemy's position, required method for game
@@ -24,18 +26,22 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    //** set enemy speed **
-    this.x = this.x + 100 * dt;
+    //** set enemy speed ** TO DO!!!: make random
+    this.x = this.x + 200 * dt;                                    //make enemy speed consistent
+    // this.x = this.x + this.speeds[Math.round(Math.random())] * dt; //making enemy movement erattic, random speeds
     //** respawn enemy once it passes off screen **
     if (this.x > 505) {
-        this.init();
+        this.draw();
+        //** random respawning y pos **
+        this.y = this.yPos[Math.round(Math.random() * this.yPos.length)];
     }
 
 }
 
-Enemy.prototype.init = function() {
-    this.x = -101;
-}
+//** redundant function object? same as .draw? **
+// Enemy.prototype.init = function() {
+//     this.x = -101;
+// }
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
