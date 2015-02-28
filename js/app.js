@@ -5,9 +5,10 @@ var Enemy = function() {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'images/char-boy.png';
+    this.sprite = ['images/char-boy.png', 'images/char-cat-girl.png', 'images/char-horn-girl.png'];
     this.draw();
     this.init();
+
 }
 
 Enemy.prototype.draw = function() {
@@ -35,7 +36,11 @@ Enemy.prototype.init = function() {
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    var enemyArrayLength = this.sprite.length;
+    for (var i in this.sprite) {
+        ctx.drawImage(Resources.get(this.sprite[i]), i.x, i.y);
+    }
+    // ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 // Now write your own player class
