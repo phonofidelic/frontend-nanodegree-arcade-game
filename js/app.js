@@ -1,3 +1,8 @@
+//** random number generator **
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min));
+}
+
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -6,16 +11,18 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
 
-    this.sprite = 'images/char-boy.png';
+    this.sprite = 'images/char-boy.png', 'images/char-cat-girl', 'image/char-horn-girl';
     this.yPos = [70, 150, 235];
-    this.draw();
+    this.init();
     this.speeds = [50, 500, 900];
-    // this.init();
     // this.randSpeed();
-
+    // this.selector();
+    // this.y = this.yPos[Math.floor(Math.random())];
+    this.y = this.yPos[getRandomInt(0, 3)];
+    console.log(this.y);
 }
 //** initial emey location **
-Enemy.prototype.draw = function() {
+Enemy.prototype.init = function() {
     this.x = -101;
     // this.y = this.yPos[Math.round(Math.random() * this.yPos.length)];
 }
@@ -28,32 +35,43 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     //** set enemy speed ** TO DO!!!: make random
-    // this.x = this.x + 200 * dt;                                    //make enemy speed consistent
-    this.x = this.x + this.speeds[Math.round(Math.random())] * dt; //making enemy movement erattic, random speeds
+
+
+    // this.x = this.x + 500 * dt;                                    //make enemy speed consistent
+    
+    this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds
+    
     //** respawn enemy once it passes off screen **
     if (this.x > 505) {
-        this.draw();
-        //** random respawning y pos **
-        this.y = this.yPos[Math.round(Math.random() * this.yPos.length)];
+        this.init();
+    //     //** random respawning y pos **
+      
+        // for (var i = 0; i < 3; i++) {
+        //     this.y = this.yPos[1];
+        // }
     }
 }
 
-// Enemy.prototype.randSpeed = function(dt) {
-//     this.speeds = [this.x = this.x + 100 * dt, this.x = this.x + 200 * dt, this.x = this.x + 300 * dt];
-//     this.x = this.x + this.speeds[Math.round(Math.random())] * dt;
+// ** iterate through yPos ** !!!AD TIME ELEMENT, COUNTER???
+// Enemy.prototype.selector = function() {
+//     var i = 0;
+//     while (i < 3) {
+//         console.log(i);
+//         this.y = this.yPos[i];
+//         i++, 1000;
+//         // return i;
+
+//     }
+
 // }
 
-//** redundant function object? same as .draw? **
-// Enemy.prototype.init = function() {
-//     this.x = -101;
+// Enemy.prototype.randSpeed = function(range) {
+//     var selector = Math.floor(Math.random() * (range));
+//     return selector;
 // }
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    // var enemyArrayLength = this.sprite.length;
-    // for (var i in this.sprite) {
-    //     ctx.drawImage(Resources.get(this.sprite[i]), i.x, i.y);
-    // }
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
@@ -63,7 +81,7 @@ Enemy.prototype.render = function() {
 
 var Player = function() {
     this.sprite = 'images/enemy-bug.png';
-    this.spriteL = 'images-enemy-bug-left.png';
+    this.spriteL = 'images/enemy-bug-left.png';
     this.draw();
     this.update()
 }
@@ -74,13 +92,17 @@ Player.prototype.draw = function() {
     this.y = 390;
 }
 
+//** redundant funcyion??? **
 Player.prototype.update = function(dt) {
     this.checkCollisions();
 }
 
 Player.prototype.render = function() {
+    if (this.handleInput() === 'left') {
+        
+        this.sprite = this.spriteL;
+    }
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
 }
 
 //** reset player possition if collision is detected **
@@ -95,9 +117,9 @@ Player.prototype.checkCollisions = function(dt) {
 }
 
 Player.prototype.handleInput = function(movement) {
-    if (movement == 'left' && this.x > 0) 
+    if (movement === 'left' && this.x > 0) 
         this.x = this.x - 101;
-        this.spriteL;
+        // this.sprite = this.spriteL;
         // console.log('left');
     
     if (movement == 'right' && this.x < 400) 
@@ -118,7 +140,8 @@ Player.prototype.handleInput = function(movement) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
-for (var i = 0; i < 5; i++) {
+// var enemy = new Enemy();
+for (var i = 0; i < 4; i++) {
     allEnemies.push(new Enemy());
 }
 
