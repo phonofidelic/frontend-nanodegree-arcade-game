@@ -4,27 +4,33 @@ function getRandomInt(min, max) {
 }
 
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(sprite) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
 
-    this.sprite = 'images/char-boy.png', 'images/char-cat-girl', 'image/char-horn-girl';
+    this.sprite = 'images/char-boy.png';
+    this.sprite2 = 'images/char-cat-girl.png';
+    this.sprite3 = 'image/char-horn-girl.png';
     this.yPos = [70, 150, 235];
     this.init();
     this.speeds = [50, 500, 900];
     // this.randSpeed();
     // this.selector();
     // this.y = this.yPos[Math.floor(Math.random())];
-    this.y = this.yPos[getRandomInt(0, 3)];
-    console.log(this.y);
+    // this.y = this.yPos[getRandomInt(0, 3)];
+    // console.log(this.y);
 }
+
+Enemy.prototype.enemyList = function() {
+
+}
+
 //** initial emey location **
 Enemy.prototype.init = function() {
     this.x = -101;
-    // this.y = this.yPos[Math.round(Math.random() * this.yPos.length)];
 }
 
 // Update the enemy's position, required method for game
@@ -34,45 +40,25 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+
     //** set enemy speed ** TO DO!!!: make random
-
-
-    // this.x = this.x + 500 * dt;                                    //make enemy speed consistent
-    
-    this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds
+    this.x = this.x + 500 * dt;                                    //make enemy speed consistent
+    // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds
     
     //** respawn enemy once it passes off screen **
     if (this.x > 505) {
         this.init();
-    //     //** random respawning y pos **
-      
-        // for (var i = 0; i < 3; i++) {
-        //     this.y = this.yPos[1];
-        // }
+
+        //** random respawning y pos **
+        this.y = this.yPos[getRandomInt(0, 3)];
+        // console.log(this.y);
     }
 }
-
-// ** iterate through yPos ** !!!AD TIME ELEMENT, COUNTER???
-// Enemy.prototype.selector = function() {
-//     var i = 0;
-//     while (i < 3) {
-//         console.log(i);
-//         this.y = this.yPos[i];
-//         i++, 1000;
-//         // return i;
-
-//     }
-
-// }
-
-// Enemy.prototype.randSpeed = function(range) {
-//     var selector = Math.floor(Math.random() * (range));
-//     return selector;
-// }
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    
 }
 
 // Now write your own player class
@@ -83,7 +69,7 @@ var Player = function() {
     this.sprite = 'images/enemy-bug.png';
     this.spriteL = 'images/enemy-bug-left.png';
     this.draw();
-    this.update()
+    // this.update()
 }
 
 //** initial player possition **    
@@ -140,10 +126,15 @@ Player.prototype.handleInput = function(movement) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
-// var enemy = new Enemy();
-for (var i = 0; i < 4; i++) {
-    allEnemies.push(new Enemy());
-}
+var enemy1 = new Enemy();
+allEnemies.push(enemy1);
+
+// var enemy2 = new Enemy();
+// allEnemies.push(enemy2);
+
+// for (var i = 0; i < 2; i++) {
+//     allEnemies.push(new Enemy());
+// }
 
 var player = new Player();
 
