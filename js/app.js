@@ -3,17 +3,18 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min));
 }
 
+ 
+
 // Enemies our player must avoid
-var Enemy = function(sprite) {
+var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
 
-    this.sprite = 'images/char-boy.png';
-    this.sprite2 = 'images/char-cat-girl.png';
-    this.sprite3 = 'image/char-horn-girl.png';
+    this.sprite = [];
+    
     this.yPos = [70, 150, 235];
     this.init();
     this.speeds = [50, 500, 900];
@@ -22,10 +23,18 @@ var Enemy = function(sprite) {
     // this.y = this.yPos[Math.floor(Math.random())];
     // this.y = this.yPos[getRandomInt(0, 3)];
     // console.log(this.y);
+    this.pushSprites();
 }
 
-Enemy.prototype.enemyList = function() {
 
+var sprites = [
+    sprite1 = 'images/char-boy.png',
+    this.sprite2 = 'images/char-cat-girl.png',
+    this.sprite3 = 'images/char-horn-girl.png'
+];
+
+Enemy.prototype.pushSprites = function() { 
+    this.sprite.push(sprites[getRandomInt(0, 3)]);
 }
 
 //** initial emey location **
@@ -42,7 +51,7 @@ Enemy.prototype.update = function(dt) {
     // all computers.
 
     //** set enemy speed ** TO DO!!!: make random
-    this.x = this.x + 500 * dt;                                    //make enemy speed consistent
+    this.x = this.x + this.speeds[1] * dt;                                    //make enemy speed consistent
     // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds
     
     //** respawn enemy once it passes off screen **
@@ -53,6 +62,7 @@ Enemy.prototype.update = function(dt) {
         this.y = this.yPos[getRandomInt(0, 3)];
         // console.log(this.y);
     }
+
 }
 
 // Draw the enemy on the screen, required method for game
@@ -60,6 +70,7 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     
 }
+
 
 // Now write your own player class
 // This class requires an update(), render() and
