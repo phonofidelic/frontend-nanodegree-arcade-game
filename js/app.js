@@ -3,7 +3,11 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min));
 }
 
- 
+var sprites = [
+    sprite1 = 'images/char-boy.png',
+    sprite2 = 'images/char-cat-girl.png',
+    sprite3 = 'images/char-horn-girl.png'
+];
 
 // Enemies our player must avoid
 var Enemy = function() {
@@ -13,30 +17,12 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
 
-    this.sprite = [];
+    this.sprite = 'images/char-boy.png';
     
     this.yPos = [70, 150, 235];
     this.init();
-    this.speeds = [50, 500, 900];
-    // this.randSpeed();
-    // this.selector();
-    // this.y = this.yPos[Math.floor(Math.random())];
-    // this.y = this.yPos[getRandomInt(0, 3)];
-    // console.log(this.y);
-    this.pushSprites();
+    this.speeds = [50, 300, 500];
 }
-
-
-var sprites = [
-    sprite1 = 'images/char-boy.png',
-    this.sprite2 = 'images/char-cat-girl.png',
-    this.sprite3 = 'images/char-horn-girl.png'
-];
-
-Enemy.prototype.pushSprites = function() { 
-    this.sprite.push(sprites[getRandomInt(0, 3)]);
-}
-
 //** initial emey location **
 Enemy.prototype.init = function() {
     this.x = -101;
@@ -46,18 +32,17 @@ Enemy.prototype.init = function() {
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
 
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+//     // You should multiply any movement by the dt parameter
+//     // which will ensure the game runs at the same speed for
+//     // all computers.
 
-    //** set enemy speed ** TO DO!!!: make random
+//     //** set enemy speed ** TO DO!!!: make random
     this.x = this.x + this.speeds[1] * dt;                                    //make enemy speed consistent
-    // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds
-    
-    //** respawn enemy once it passes off screen **
+//     // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds  
+
+//     //** respawn enemy once it passes off screen **
     if (this.x > 505) {
         this.init();
-
         //** random respawning y pos **
         this.y = this.yPos[getRandomInt(0, 3)];
         // console.log(this.y);
@@ -65,10 +50,101 @@ Enemy.prototype.update = function(dt) {
 
 }
 
-// Draw the enemy on the screen, required method for game
+// // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);   
+}
+
+var Enemy2 = function() {
+    // Variables applied to each of our instances go here,
+    // we've provided one for you to get started
+
+    // The image/sprite for our enemies, this uses
+    // a helper we've provided to easily load images
+
+    this.sprite = 'images/char-cat-girl.png';
     
+    this.yPos = [70, 150, 235];
+    this.init();
+    this.speeds = [50, 300, 500];
+}
+
+//** initial emey location **
+Enemy2.prototype.init = function() {
+    this.x = -101;
+}
+
+// Update the enemy's position, required method for game
+// Parameter: dt, a time delta between ticks
+Enemy2.prototype.update = function(dt) {
+
+//     // You should multiply any movement by the dt parameter
+//     // which will ensure the game runs at the same speed for
+//     // all computers.
+
+//     //** set enemy speed ** TO DO!!!: make random
+    this.x = this.x + this.speeds[2] * dt;                                    //make enemy speed consistent
+//     // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds  
+
+//     //** respawn enemy once it passes off screen **
+    if (this.x > 505) {
+        this.init();
+        //** random respawning y pos **
+        this.y = this.yPos[getRandomInt(0, 3)];
+        // console.log(this.y);
+    }
+
+}
+
+// // Draw the enemy on the screen, required method for game
+Enemy2.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);  
+}
+
+var Enemy3 = function() {
+    // Variables applied to each of our instances go here,
+    // we've provided one for you to get started
+
+    // The image/sprite for our enemies, this uses
+    // a helper we've provided to easily load images
+
+    this.sprite = 'images/char-horn-girl.png';
+    
+    this.yPos = [70, 150, 235];
+    this.init();
+    this.speeds = [100, 300, 500];
+}
+
+//** initial emey location **
+Enemy3.prototype.init = function() {
+    this.x = 505;
+}
+
+// Update the enemy's position, required method for game
+// Parameter: dt, a time delta between ticks
+Enemy3.prototype.update = function(dt) {
+
+//     // You should multiply any movement by the dt parameter
+//     // which will ensure the game runs at the same speed for
+//     // all computers.
+
+//     //** set enemy speed ** TO DO!!!: make random
+    this.x = this.x - this.speeds[0] * dt;                                    //make enemy speed consistent
+//     // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds  
+
+//     //** respawn enemy once it passes off screen **
+    if (this.x < 0) {
+        this.init();
+        //** random respawning y pos **
+        this.y = this.yPos[getRandomInt(0, 3)];
+        // console.log(this.y);
+    }
+
+}
+
+// // Draw the enemy on the screen, required method for game
+Enemy3.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);  
 }
 
 
@@ -137,8 +213,18 @@ Player.prototype.handleInput = function(movement) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
-var enemy1 = new Enemy();
-allEnemies.push(enemy1);
+
+var enemy = new Enemy;
+allEnemies.push(enemy);
+
+var enemy = new Enemy2();
+allEnemies.push(enemy);
+
+var enemy = new Enemy3();
+allEnemies.push(enemy);
+
+// var enemy = new Enemy3();
+// allEnemies.push(enemy);
 
 // var enemy2 = new Enemy();
 // allEnemies.push(enemy2);
