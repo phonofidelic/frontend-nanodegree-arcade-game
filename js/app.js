@@ -9,6 +9,9 @@ var sprites = [
     sprite3 = 'images/char-horn-girl.png'
 ];
 
+var yPos = [70, 150, 235];
+var speeds = [50, 300, 500];
+
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -18,10 +21,10 @@ var Enemy = function() {
     // a helper we've provided to easily load images
 
     this.sprite = 'images/char-boy.png';
-    
-    this.yPos = [70, 150, 235];
+
+
     this.init();
-    this.speeds = [50, 300, 500];
+
 }
 //** initial emey location **
 Enemy.prototype.init = function() {
@@ -36,15 +39,14 @@ Enemy.prototype.update = function(dt) {
 //     // which will ensure the game runs at the same speed for
 //     // all computers.
 
-//     //** set enemy speed ** TO DO!!!: make random
-    this.x = this.x + this.speeds[1] * dt;                                    //make enemy speed consistent
-//     // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds  
+//
+    this.x = this.x + speeds[1] * dt;
 
 //     //** respawn enemy once it passes off screen **
     if (this.x > 505) {
         this.init();
         //** random respawning y pos **
-        this.y = this.yPos[getRandomInt(0, 3)];
+        this.y = yPos[getRandomInt(0, 3)];
         // console.log(this.y);
     }
 
@@ -52,7 +54,7 @@ Enemy.prototype.update = function(dt) {
 
 // // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);   
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 var Enemy2 = function() {
@@ -63,10 +65,10 @@ var Enemy2 = function() {
     // a helper we've provided to easily load images
 
     this.sprite = 'images/char-cat-girl.png';
-    
-    this.yPos = [70, 150, 235];
+
+
     this.init();
-    this.speeds = [50, 300, 500];
+
 }
 
 //** initial emey location **
@@ -83,14 +85,14 @@ Enemy2.prototype.update = function(dt) {
 //     // all computers.
 
 //     //** set enemy speed ** TO DO!!!: make random
-    this.x = this.x + this.speeds[2] * dt;                                    //make enemy speed consistent
-//     // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds  
+    this.x = this.x + speeds[2] * dt;                                    //make enemy speed consistent
+//     // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds
 
 //     //** respawn enemy once it passes off screen **
     if (this.x > 505) {
         this.init();
         //** random respawning y pos **
-        this.y = this.yPos[getRandomInt(0, 3)];
+        this.y = yPos[getRandomInt(0, 3)];
         // console.log(this.y);
     }
 
@@ -98,7 +100,7 @@ Enemy2.prototype.update = function(dt) {
 
 // // Draw the enemy on the screen, required method for game
 Enemy2.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);  
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 var Enemy3 = function() {
@@ -109,10 +111,10 @@ var Enemy3 = function() {
     // a helper we've provided to easily load images
 
     this.sprite = 'images/char-horn-girl.png';
-    
-    this.yPos = [70, 150, 235];
+
+
     this.init();
-    this.speeds = [100, 300, 500];
+
 }
 
 //** initial emey location **
@@ -129,14 +131,14 @@ Enemy3.prototype.update = function(dt) {
 //     // all computers.
 
 //     //** set enemy speed ** TO DO!!!: make random
-    this.x = this.x - this.speeds[0] * dt;                                    //make enemy speed consistent
-//     // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds  
+    this.x = this.x - speeds[0] * dt;                                    //make enemy speed consistent
+//     // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds
 
 //     //** respawn enemy once it passes off screen **
     if (this.x < 0) {
         this.init();
         //** random respawning y pos **
-        this.y = this.yPos[getRandomInt(0, 3)];
+        this.y = yPos[getRandomInt(0, 3)];
         // console.log(this.y);
     }
 
@@ -144,7 +146,7 @@ Enemy3.prototype.update = function(dt) {
 
 // // Draw the enemy on the screen, required method for game
 Enemy3.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);  
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 
@@ -159,7 +161,7 @@ var Player = function() {
     // this.update()
 }
 
-//** initial player possition **    
+//** initial player possition **
 Player.prototype.draw = function() {
     this.x = 202;
     this.y = 390;
@@ -172,10 +174,11 @@ Player.prototype.update = function(dt) {
 
 Player.prototype.render = function() {
     if (this.handleInput() === 'left') {
-        
+        console.log(left);
         this.sprite = this.spriteL;
+
     }
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.spriteL), this.x, this.y);
 }
 
 //** reset player possition if collision is detected **
@@ -183,30 +186,30 @@ Player.prototype.checkCollisions = function(dt) {
     for(var enemy in allEnemies) {
         if( Math.abs(this.x - allEnemies[enemy].x) <= 80
          && Math.abs(this.y - allEnemies[enemy].y) <= 60) {
-            this.draw();    
+            this.draw();
         }
     }
-    
+
 }
 
 Player.prototype.handleInput = function(movement) {
-    if (movement === 'left' && this.x > 0) 
+    if (movement === 'left' && this.x > 0)
         this.x = this.x - 101;
         // this.sprite = this.spriteL;
         // console.log('left');
-    
-    if (movement == 'right' && this.x < 400) 
+
+    if (movement == 'right' && this.x < 400)
         this.x = this.x + 101;
         // console.log('right');
-    
-    if (movement == 'up' && this.y > 0) 
+
+    if (movement == 'up' && this.y > 0)
             this.y = this.y - 83;
             // console.log('up');
-    
-    if (movement == 'down' && this.y < 390) 
+
+    if (movement == 'down' && this.y < 390)
         this.y = this.y + 83;
         // console.log('down');
-    
+
 }
 
 // Now instantiate your objects.
