@@ -21,8 +21,6 @@ var Enemy = function() {
     // a helper we've provided to easily load images
 
     this.sprite = 'images/char-boy.png';
-
-
     this.init();
 
 }
@@ -35,19 +33,18 @@ Enemy.prototype.init = function() {
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
 
-//     // You should multiply any movement by the dt parameter
-//     // which will ensure the game runs at the same speed for
-//     // all computers.
+    // You should multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
 
-//
     this.x = this.x + speeds[1] * dt;
 
-//     //** respawn enemy once it passes off screen **
+    //** respawn enemy once it passes off screen **
     if (this.x > 505) {
         this.init();
+
         //** random respawning y pos **
         this.y = yPos[getRandomInt(0, 3)];
-        // console.log(this.y);
     }
 
 }
@@ -65,8 +62,6 @@ var Enemy2 = function() {
     // a helper we've provided to easily load images
 
     this.sprite = 'images/char-cat-girl.png';
-
-
     this.init();
 
 }
@@ -135,7 +130,7 @@ Enemy3.prototype.update = function(dt) {
 //     // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds
 
 //     //** respawn enemy once it passes off screen **
-    if (this.x < 0) {
+    if (this.x < -101) {
         this.init();
         //** random respawning y pos **
         this.y = yPos[getRandomInt(0, 3)];
@@ -173,12 +168,13 @@ Player.prototype.update = function(dt) {
 }
 
 Player.prototype.render = function() {
-    if (this.handleInput() === 'left') {
-        console.log(left);
+    if (this.handleInput() == 'left')
+        // console.log(left);
         this.sprite = this.spriteL;
+    else if (this.handleInput() != 'left')
+        this.sprite = this.sprite;
 
-    }
-    ctx.drawImage(Resources.get(this.spriteL), this.x, this.y);
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 //** reset player possition if collision is detected **
@@ -189,11 +185,10 @@ Player.prototype.checkCollisions = function(dt) {
             this.draw();
         }
     }
-
 }
 
 Player.prototype.handleInput = function(movement) {
-    if (movement === 'left' && this.x > 0)
+    if (movement == 'left' && this.x > 0)
         this.x = this.x - 101;
         // this.sprite = this.spriteL;
         // console.log('left');
@@ -226,19 +221,7 @@ allEnemies.push(enemy);
 var enemy = new Enemy3();
 allEnemies.push(enemy);
 
-// var enemy = new Enemy3();
-// allEnemies.push(enemy);
-
-// var enemy2 = new Enemy();
-// allEnemies.push(enemy2);
-
-// for (var i = 0; i < 2; i++) {
-//     allEnemies.push(new Enemy());
-// }
-
 var player = new Player();
-
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -252,4 +235,3 @@ document.addEventListener('keydown', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
-
