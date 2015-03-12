@@ -106,8 +106,6 @@ var Enemy3 = function() {
     // a helper we've provided to easily load images
 
     this.sprite = 'images/char-horn-girl.png';
-
-
     this.init();
 
 }
@@ -126,7 +124,7 @@ Enemy3.prototype.update = function(dt) {
 //     // all computers.
 
 //     //** set enemy speed ** TO DO!!!: make random
-    this.x = this.x - speeds[0] * dt;                                    //make enemy speed consistent
+    this.x = this.x - speeds[1] * dt;                                    //make enemy speed consistent
 //     // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds
 
 //     //** respawn enemy once it passes off screen **
@@ -143,6 +141,7 @@ Enemy3.prototype.update = function(dt) {
 Enemy3.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
+
 
 
 // Now write your own player class
@@ -168,12 +167,6 @@ Player.prototype.update = function(dt) {
 }
 
 Player.prototype.render = function() {
-    if (this.handleInput() == 'left')
-        // console.log(left);
-        this.sprite = this.spriteL;
-    else if (this.handleInput() != 'left')
-        this.sprite = this.sprite;
-
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
@@ -188,25 +181,19 @@ Player.prototype.checkCollisions = function(dt) {
 }
 
 Player.prototype.handleInput = function(movement) {
-    if (movement == 'left' && this.x > 0)
+    if (movement == 'left' && this.x > 0) {
         this.x = this.x - 101;
-        // this.sprite = this.spriteL;
-        // console.log('left');
-
-    if (movement == 'right' && this.x < 400)
+    }
+    if (movement == 'right' && this.x < 400) {
         this.x = this.x + 101;
-        // console.log('right');
-
-    if (movement == 'up' && this.y > 0)
-            this.y = this.y - 83;
-            // console.log('up');
-
-    if (movement == 'down' && this.y < 390)
+    }
+    if (movement == 'up' && this.y > 0) {
+        this.y = this.y - 83;
+    }
+    if (movement == 'down' && this.y < 390) {
         this.y = this.y + 83;
-        // console.log('down');
-
+    }
 }
-
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -220,6 +207,7 @@ allEnemies.push(enemy);
 
 var enemy = new Enemy3();
 allEnemies.push(enemy);
+
 
 var player = new Player();
 
