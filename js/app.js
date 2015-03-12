@@ -149,8 +149,9 @@ Enemy3.prototype.render = function() {
 // a handleInput() method.
 
 var Player = function() {
-    this.sprite = 'images/enemy-bug.png';
+    this.sprite = 'images/enemy-bug-small.png';
     this.spriteL = 'images/enemy-bug-left.png';
+    this.spriteDead = 'images/enemy-bug-small-dead.png';
     this.draw();
     // this.update()
 }
@@ -161,33 +162,41 @@ Player.prototype.draw = function() {
     this.y = 390;
 }
 
-//** redundant funcyion??? **
+//** redundant function??? **
 Player.prototype.update = function(dt) {
     this.checkCollisions();
 }
 
 Player.prototype.render = function() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+Player.prototype.damage = function() {
+
 }
 
 //** reset player possition if collision is detected **
 Player.prototype.checkCollisions = function(dt) {
     for(var enemy in allEnemies) {
-        if( Math.abs(this.x - allEnemies[enemy].x) <= 80
-         && Math.abs(this.y - allEnemies[enemy].y) <= 60) {
-            this.draw();
+        if( Math.abs(this.x - allEnemies[enemy].x) <= 20
+         && Math.abs(this.y - allEnemies[enemy].y) <= 20) {
+            // this.draw();
+            this.sprite = this.spriteDead;
         }
     }
 }
 
 Player.prototype.handleInput = function(movement) {
     if (movement == 'left' && this.x > 0) {
+        this.sprite = 'images/enemy-bug-small-left.png';
         this.x = this.x - 101;
     }
     if (movement == 'right' && this.x < 400) {
+        this.sprite = 'images/enemy-bug-small.png';
         this.x = this.x + 101;
     }
     if (movement == 'up' && this.y > 0) {
+        this.sprite = 'images/enemy-bug-small.png'
         this.y = this.y - 83;
     }
     if (movement == 'down' && this.y < 390) {
