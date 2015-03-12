@@ -2,14 +2,15 @@
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min));
 }
+//** global variables **
+// var sprites = [
+//     sprite1 = 'images/char-boy.png',
+//     sprite2 = 'images/char-cat-girl.png',
+//     sprite3 = 'images/char-horn-girl.png'
+// ];
 
-var sprites = [
-    sprite1 = 'images/char-boy.png',
-    sprite2 = 'images/char-cat-girl.png',
-    sprite3 = 'images/char-horn-girl.png'
-];
 
-var yPos = [70, 150, 235];
+var yPos = [150, 235, 320];
 var speeds = [50, 300, 500];
 
 // Enemies our player must avoid
@@ -159,7 +160,7 @@ var Player = function() {
 //** initial player possition **
 Player.prototype.draw = function() {
     this.x = 202;
-    this.y = 390;
+    this.y = 465;
 }
 
 //** redundant function??? **
@@ -171,7 +172,9 @@ Player.prototype.render = function() {
      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
+
 Player.prototype.damage = function() {
+    this.health = 'images/Heart.png';
 
 }
 
@@ -179,7 +182,7 @@ Player.prototype.damage = function() {
 Player.prototype.checkCollisions = function(dt) {
     for(var enemy in allEnemies) {
         if( Math.abs(this.x - allEnemies[enemy].x) <= 20
-         && Math.abs(this.y - allEnemies[enemy].y) <= 20) {
+         && Math.abs(this.y - allEnemies[enemy].y) <= 40) {
             // this.draw();
             this.sprite = this.spriteDead;
         }
@@ -195,7 +198,7 @@ Player.prototype.handleInput = function(movement) {
         this.sprite = 'images/enemy-bug-small.png';
         this.x = this.x + 101;
     }
-    if (movement == 'up' && this.y > 0) {
+    if (movement == 'up' && this.y > 100) {
         this.sprite = 'images/enemy-bug-small.png'
         this.y = this.y - 83;
     }
