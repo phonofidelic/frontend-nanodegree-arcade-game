@@ -3,13 +3,6 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min));
 }
 //** global variables **
-// var sprites = [
-//     sprite1 = 'images/char-boy.png',
-//     sprite2 = 'images/char-cat-girl.png',
-//     sprite3 = 'images/char-horn-girl.png'
-// ];
-
-
 var yPos = [150, 235, 320];
 var speeds = [50, 300, 500];
 
@@ -23,8 +16,8 @@ var Enemy = function() {
 
     this.sprite = 'images/char-boy.png';
     this.init();
-
 }
+
 //** initial emey location **
 Enemy.prototype.init = function() {
     this.x = -101;
@@ -38,6 +31,7 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 
+    // ** set enemy speed **
     this.x = this.x + speeds[1] * dt;
 
     //** respawn enemy once it passes off screen **
@@ -47,24 +41,16 @@ Enemy.prototype.update = function(dt) {
         //** random respawning y pos **
         this.y = yPos[getRandomInt(0, 3)];
     }
-
 }
 
-// // Draw the enemy on the screen, required method for game
+// Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 var Enemy2 = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-
     this.sprite = 'images/char-cat-girl.png';
     this.init();
-
 }
 
 //** initial emey location **
@@ -76,39 +62,30 @@ Enemy2.prototype.init = function() {
 // Parameter: dt, a time delta between ticks
 Enemy2.prototype.update = function(dt) {
 
-//     // You should multiply any movement by the dt parameter
-//     // which will ensure the game runs at the same speed for
-//     // all computers.
+    // You should multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
 
-//     //** set enemy speed ** TO DO!!!: make random
-    this.x = this.x + speeds[2] * dt;                                    //make enemy speed consistent
-//     // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds
+    // ** set enemy speed **
+    this.x = this.x + speeds[2] * dt;
 
-//     //** respawn enemy once it passes off screen **
+    //** respawn enemy once it passes off screen **
     if (this.x > 505) {
         this.init();
+
         //** random respawning y pos **
         this.y = yPos[getRandomInt(0, 3)];
-        // console.log(this.y);
     }
-
 }
 
-// // Draw the enemy on the screen, required method for game
+// Draw the enemy on the screen, required method for game
 Enemy2.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 var Enemy3 = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-
     this.sprite = 'images/char-horn-girl.png';
     this.init();
-
 }
 
 //** initial emey location **
@@ -120,31 +97,27 @@ Enemy3.prototype.init = function() {
 // Parameter: dt, a time delta between ticks
 Enemy3.prototype.update = function(dt) {
 
-//     // You should multiply any movement by the dt parameter
-//     // which will ensure the game runs at the same speed for
-//     // all computers.
+    // You should multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
 
-//     //** set enemy speed ** TO DO!!!: make random
-    this.x = this.x - speeds[1] * dt;                                    //make enemy speed consistent
-//     // this.x = this.x + this.speeds[getRandomInt(0, 3)] * dt; //making enemy movement erattic, random speeds
+    //** set enemy speed **
+    this.x = this.x - speeds[1] * dt;
 
-//     //** respawn enemy once it passes off screen **
+    //** respawn enemy once it passes off screen **
     if (this.x < -101) {
         this.init();
         //** random respawning y pos **
         this.y = yPos[getRandomInt(0, 3)];
-        // console.log(this.y);
     }
-
 }
 
-// // Draw the enemy on the screen, required method for game
+// Draw the enemy on the screen, required method for game
 Enemy3.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
-
-//*** health bar **
+//*** health bar ****************************************************
 var Heart1 = function() {
     this.sprite = 'images/Heart.png';
     this.sprite2 = 'images/Heart-damage.png';
@@ -263,8 +236,8 @@ Player.prototype.render = function() {
 
 //** reset player possition if collision is detected **
 Player.prototype.checkCollisions = function() {
-    for(var enemy in allEnemies) {                                     //!!! 'enemy' already declared?
-        if( Math.abs(this.x - allEnemies[enemy].x) <= 20
+    for(enemy in allEnemies) {                                     //!!! 'enemy' already declared?
+        if(Math.abs(this.x - allEnemies[enemy].x) <= 20
         && Math.abs(this.y - allEnemies[enemy].y) <= 40) {
             this.damage();
 
