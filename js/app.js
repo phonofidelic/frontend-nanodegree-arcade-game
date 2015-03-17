@@ -144,8 +144,96 @@ Enemy3.prototype.render = function() {
 }
 
 
+//*** health bar **
+var Heart1 = function() {
+    this.sprite = 'images/Heart.png';
+    this.sprite2 = 'images/Heart-damage.png';
+    this.init();
+}
 
-// Now write your own player class
+//** initial emey location **
+Heart1.prototype.init = function() {
+    this.x = 1;
+    this.y = 1;
+}
+// Update the enemy's position, required method for game
+// Parameter: dt, a time delta between ticks
+Heart1.prototype.update = function(dt) {
+
+    // You should multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
+
+    //** set enemy speed **
+    this.x * dt;                      //make enemy speed consistent
+}
+
+// Draw the enemy on the screen, required method for game
+Heart1.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+Heart1.prototype.damage = function() {
+    this.sprite = this.sprite2;
+}
+
+var Heart2 = function() {
+    this.sprite = 'images/Heart.png';
+    this.sprite2 = 'images/Heart-damage.png';
+    this.init();
+}
+
+//** initial emey location **
+Heart2.prototype.init = function() {
+    this.x = 60;
+    this.y = 1;
+}
+
+// Update the enemy's position, required method for game
+// Parameter: dt, a time delta between ticks
+Heart2.prototype.update = function(dt) {
+
+    // You should multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
+
+    this.x * dt;
+}
+
+// Draw the enemy on the screen, required method for game
+Heart2.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+var Heart3 = function() {
+    this.sprite = 'images/Heart.png';
+    this.sprite2 = 'images/Heart-damage.png';
+    this.init();
+}
+
+//** initial emey location **
+Heart3.prototype.init = function() {
+    this.x = 120;
+    this.y = 1;
+}
+
+// Update the enemy's position, required method for game
+// Parameter: dt, a time delta between ticks
+Heart3.prototype.update = function(dt) {
+
+    // You should multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
+
+    this.x * dt;
+}
+
+// Draw the enemy on the screen, required method for game
+Heart3.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+// Now write your own player class}
 // This class requires an update(), render() and
 // a handleInput() method.
 
@@ -154,6 +242,7 @@ var Player = function() {
     this.spriteL = 'images/enemy-bug-left.png';
     this.spriteDead = 'images/enemy-bug-small-dead.png';
     this.draw();
+    // this.damage();
     // this.update()
 }
 
@@ -164,29 +253,39 @@ Player.prototype.draw = function() {
 }
 
 //** redundant function??? **
-Player.prototype.update = function(dt) {
+Player.prototype.update = function() {
     this.checkCollisions();
 }
 
 Player.prototype.render = function() {
-     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
-
-
-Player.prototype.damage = function() {
-    this.health = 'images/Heart.png';
-
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 //** reset player possition if collision is detected **
-Player.prototype.checkCollisions = function(dt) {
-    for(var enemy in allEnemies) {
+Player.prototype.checkCollisions = function() {
+    for(var enemy in allEnemies) {                                     //!!! 'enemy' already declared?
         if( Math.abs(this.x - allEnemies[enemy].x) <= 20
-         && Math.abs(this.y - allEnemies[enemy].y) <= 40) {
+        && Math.abs(this.y - allEnemies[enemy].y) <= 40) {
+            this.damage();
+
+
+
+
+            // this.sprite = this.spriteDead;  //** add while-loop to hold dead bug in place untill ready to respawn att init pos.
+
+
+            // var popped = allHearts.pop();
+
             // this.draw();
-            this.sprite = this.spriteDead;
         }
     }
+}
+
+Player.prototype.damage = function() {
+    this.sprite = this.spriteDead;
+    // allHearts.pop();
+
+    Heart1.sprite = Heart1.sprite2;
 }
 
 Player.prototype.handleInput = function(movement) {
@@ -199,17 +298,55 @@ Player.prototype.handleInput = function(movement) {
         this.x = this.x + 101;
     }
     if (movement == 'up' && this.y > 100) {
-        this.sprite = 'images/enemy-bug-small.png'
         this.y = this.y - 83;
     }
     if (movement == 'down' && this.y < 390) {
         this.y = this.y + 83;
     }
 }
+
+// //constructor mode
+// var Heart = function(xPos) {
+//     this.sprite = 'images/Heart.png';
+//     this.x = xPos;
+//     this.y = 1;
+//     this.render();
+// }
+
+// Heart.prototype.init = function(xPos) {
+//     this.x = xPos;
+//     this.y = 1;
+// }
+
+// Heart.prototype.render = function() {
+//     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+// }
+
+//**
+// var HealthBar = function() {
+//     this.sprite = 'images/Heart.png';
+//     this.draw();
+// }
+
+// HealthBar.prototype.draw = function() {
+//     this.x = 200;
+//     this.y = 400;
+// }
+
+// // HealthBar.prototype.update = function(dt){
+// //     this.x = this.x * dt;
+// // }
+
+// HealthBar.prototype.render = function() {
+//     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+// }
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
+
+var allHearts = [];
 
 var enemy = new Enemy;
 allEnemies.push(enemy);
@@ -220,8 +357,22 @@ allEnemies.push(enemy);
 var enemy = new Enemy3();
 allEnemies.push(enemy);
 
+// var heart = new Heart(10);
+// // heart.render();
+// allHearts.push(heart);
+
+var heart = new Heart1();
+allHearts.push(heart);
+
+var heart = new Heart2();
+allHearts.push(heart);
+
+var heart = new Heart3();
+allHearts.push(heart);
 
 var player = new Player();
+
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

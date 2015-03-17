@@ -94,6 +94,9 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
+        allHearts.forEach(function(heart) {
+            heart.update(dt);
+        });
         player.update();
     }
 
@@ -153,6 +156,10 @@ var Engine = (function(global) {
             enemy.render();
         });
 
+        allHearts.forEach(function(heart) {
+            heart.render();
+        });
+
         player.render();
     }
 
@@ -181,6 +188,7 @@ var Engine = (function(global) {
         'images/char-cat-girl.png',
         'images/char-horn-girl.png',
         'images/Heart.png',
+        'images/Heart-damage.png',
         'images/blank-block.png'
     ]);
     Resources.onReady(init);
