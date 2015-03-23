@@ -5,6 +5,7 @@ function getRandomInt(min, max) {
 //** global variables **
 var yPos = [150, 235, 320];
 var speeds = [50, 300, 500];
+var suspGame = false;
 
 // Enemies our player must avoid
 var Enemy = function() {
@@ -117,82 +118,22 @@ Enemy3.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
-//*** health bar ****************************************************
-var Heart1 = function() {
-    this.sprite = 'images/Heart.png';
-    this.sprite2 = 'images/Heart-damage.png';
+
+//###########################################################################
+
+var Hurt = function() {
+    console.log('ouch!')
+    this.sprite = 'images/Heart-damage.png';
     this.init();
+    allHearts.pop();
 }
 
-//** initial emey location **
-Heart1.prototype.init = function() {
-    this.x = 1;
-    this.y = 1;
-}
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Heart1.prototype.update = function(dt) {
-
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-
-    //** set enemy speed **
-    this.x * dt;                      //make enemy speed consistent
-}
-
-// Draw the enemy on the screen, required method for game
-Heart1.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
-
-Heart1.prototype.damage = function() {
-    this.sprite = this.sprite2;
-}
-
-var Heart2 = function() {
-    this.sprite = 'images/Heart.png';
-    this.sprite2 = 'images/Heart-damage.png';
-    this.init();
-}
-
-//** initial emey location **
-Heart2.prototype.init = function() {
-    this.x = 60;
-    this.y = 1;
-}
-
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Heart2.prototype.update = function(dt) {
-
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-
-    this.x * dt;
-}
-
-// Draw the enemy on the screen, required method for game
-Heart2.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
-
-var Heart3 = function() {
-    this.sprite = 'images/Heart.png';
-    this.sprite2 = 'images/Heart-damage.png';
-    this.init();
-}
-
-//** initial emey location **
-Heart3.prototype.init = function() {
+Hurt.prototype.init = function() {
     this.x = 120;
     this.y = 1;
 }
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Heart3.prototype.update = function(dt) {
+Hurt.prototype.update = function(dt) {
 
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -201,10 +142,7 @@ Heart3.prototype.update = function(dt) {
     this.x * dt;
 }
 
-// Draw the enemy on the screen, required method for game
-Heart3.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+//##########################################################################
 
 // Now write your own player class}
 // This class requires an update(), render() and
@@ -212,20 +150,23 @@ Heart3.prototype.render = function() {
 
 var Player = function() {
     this.sprite = 'images/enemy-bug-small.png';
-    this.spriteL = 'images/enemy-bug-left.png';
+    // this.spriteL = 'images/enemy-bug-left.png';
     this.spriteDead = 'images/enemy-bug-small-dead.png';
-    this.draw();
+    // this.draw();
     // this.damage();
     // this.update()
-}
-
-//** initial player possition **
-Player.prototype.draw = function() {
     this.x = 202;
     this.y = 465;
 }
 
-//** redundant function??? **
+//** initial player possition **        ** redundant function??? **
+// Player.prototype.draw = function() {
+//     this.x = 202;
+//     this.y = 465;
+
+// }
+
+
 Player.prototype.update = function() {
     this.checkCollisions();
 }
@@ -236,66 +177,85 @@ Player.prototype.render = function() {
 
 //** reset player possition if collision is detected **
 Player.prototype.checkCollisions = function() {
-    for(enemy in allEnemies) {                                     //!!! 'enemy' already declared?
+    for(enemy in allEnemies) {
         if(Math.abs(this.x - allEnemies[enemy].x) <= 20
         && Math.abs(this.y - allEnemies[enemy].y) <= 40) {
             this.damage();
+            // this.resetPlayer();
+            suspGame = true;
+            this.delay();
 
 
-
-
-            // this.sprite = this.spriteDead;  //** add while-loop to hold dead bug in place untill ready to respawn att init pos.
-
-
-            // var popped = allHearts.pop();
-
-            // this.draw();
         }
     }
 }
 
 Player.prototype.damage = function() {
     this.sprite = this.spriteDead;
-    // allHearts.pop();
 
-    Heart1.sprite = Heart1.sprite2;
+}
+
+Player.prototype.delay = function() {
+    window.setTimeout(Player.prototype.resetPlayer, 1000);
+}
+
+Player.prototype.resetPlayer = function() {
+    this.x = 202;
+    this.y = 465;
+    this.sprite = 'images/enemy-bug-small.png';
+    suspGame = false;
+    var hurt = new Hurt();
 }
 
 Player.prototype.handleInput = function(movement) {
-    if (movement == 'left' && this.x > 0) {
-        this.sprite = 'images/enemy-bug-small-left.png';
-        this.x = this.x - 101;
+    if (suspGame === false) {
+        if (movement == 'left' && this.x > 0) {
+            this.sprite = 'images/enemy-bug-small-left.png';
+            this.x = this.x - 101;
+        }
+        if (movement == 'right' && this.x < 400) {
+            this.sprite = 'images/enemy-bug-small.png';
+            this.x = this.x + 101;
+        }
+        if (movement == 'up' && this.y > 100) {
+            this.sprite = 'images/enemy-bug-small.png';
+            this.y = this.y - 83;
+        }
+        if (movement == 'down' && this.y < 390) {
+            this.sprite = 'images/enemy-bug-small-left.png';
+            this.y = this.y + 83;
+        }
     }
-    if (movement == 'right' && this.x < 400) {
-        this.sprite = 'images/enemy-bug-small.png';
-        this.x = this.x + 101;
-    }
-    if (movement == 'up' && this.y > 100) {
-        this.y = this.y - 83;
-    }
-    if (movement == 'down' && this.y < 390) {
-        this.y = this.y + 83;
+    // initiates resetsPlayer function
+    if (movement == 'space') {
+                this.resetPlayer();
     }
 }
 
-// //constructor mode
-// var Heart = function(xPos) {
-//     this.sprite = 'images/Heart.png';
-//     this.x = xPos;
-//     this.y = 1;
-//     this.render();
-// }
+//Heart constructor mode ###################################################
+var Heart = function() {
+    this.sprite = 'images/Heart.png';
+    // this.x = xPos;
+    this.y = 1;
+    this.init();
+    // this.render();
+}
 
-// Heart.prototype.init = function(xPos) {
-//     this.x = xPos;
-//     this.y = 1;
-// }
+Heart.prototype.init = function(xPos) {
+    this.x = xPos;
+    return xPos;
+}
 
-// Heart.prototype.render = function() {
-//     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-// }
+Heart.prototype.update = function(dt) {
 
-//**
+}
+
+Heart.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+//###########################################################################
+
 // var HealthBar = function() {
 //     this.sprite = 'images/Heart.png';
 //     this.draw();
@@ -306,13 +266,15 @@ Player.prototype.handleInput = function(movement) {
 //     this.y = 400;
 // }
 
-// // HealthBar.prototype.update = function(dt){
-// //     this.x = this.x * dt;
-// // }
+// HealthBar.prototype.update = function(dt){
+//     this.x = this.x * dt;
+// }
 
 // HealthBar.prototype.render = function() {
 //     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 // }
+
+//###########################################################################
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -330,18 +292,19 @@ allEnemies.push(enemy);
 var enemy = new Enemy3();
 allEnemies.push(enemy);
 
-// var heart = new Heart(10);
-// // heart.render();
-// allHearts.push(heart);
 
-var heart = new Heart1();
+var heart = new Heart();
+heart.init(1);
 allHearts.push(heart);
 
-var heart = new Heart2();
+var heart = new Heart();
+heart.init(50);
 allHearts.push(heart);
 
-var heart = new Heart3();
+var heart = new Heart();
+heart.init(100);
 allHearts.push(heart);
+
 
 var player = new Player();
 
@@ -354,7 +317,8 @@ document.addEventListener('keydown', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        32: 'space'
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
