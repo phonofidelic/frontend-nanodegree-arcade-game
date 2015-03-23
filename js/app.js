@@ -6,6 +6,19 @@ function getRandomInt(min, max) {
 var yPos = [150, 235, 320];
 var speeds = [50, 300, 500];
 var suspGame = false;
+var timeoutId;
+
+function delayReset() {
+    timeoutId = window.setTimeout(playerReset, 2000);
+}
+
+function playerReset() {
+    player.x = 202;
+    player.y = 465;
+    player.sprite = 'images/enemy-bug-small.png';
+    suspGame = false;
+
+}
 
 // Enemies our player must avoid
 var Enemy = function() {
@@ -183,7 +196,8 @@ Player.prototype.checkCollisions = function() {
             this.damage();
             // this.resetPlayer();
             suspGame = true;
-            this.delay();
+            // this.delay();
+            delayReset();
 
 
         }
@@ -195,16 +209,16 @@ Player.prototype.damage = function() {
 
 }
 
-Player.prototype.delay = function() {
-    window.setTimeout(Player.prototype.resetPlayer, 1000);
-}
+// Player.prototype.delay = function() {
+//     timeoutId = window.setTimeout(this.resetPlayer(), 1000);
+// }
 
 Player.prototype.resetPlayer = function() {
     this.x = 202;
     this.y = 465;
     this.sprite = 'images/enemy-bug-small.png';
     suspGame = false;
-    var hurt = new Hurt();
+    // var hurt = new Hurt();
 }
 
 Player.prototype.handleInput = function(movement) {
