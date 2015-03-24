@@ -9,13 +9,14 @@ var suspGame = false;
 var timeoutId;
 
 function delayReset() {
-    timeoutId = window.setTimeout(playerReset, 2000);
+    timeoutId = window.setTimeout(playerReset, 2500);
 }
 
 function playerReset() {
     player.x = 202;
     player.y = 465;
     player.sprite = 'images/enemy-bug-small.png';
+    allHearts.pop();
     suspGame = false;
 
 }
@@ -190,9 +191,10 @@ Player.prototype.render = function() {
 
 //** reset player possition if collision is detected **
 Player.prototype.checkCollisions = function() {
-    for(enemy in allEnemies) {
+    for (enemy in allEnemies) {
         if(Math.abs(this.x - allEnemies[enemy].x) <= 20
-        && Math.abs(this.y - allEnemies[enemy].y) <= 40) {
+        && Math.abs(this.y - allEnemies[enemy].y) <= 40
+        && suspGame == false) {
             this.damage();
             // this.resetPlayer();
             suspGame = true;
@@ -249,10 +251,21 @@ Player.prototype.handleInput = function(movement) {
 //Heart constructor mode ###################################################
 var Heart = function() {
     this.sprite = 'images/Heart.png';
+    this.heartDamage = 'Heart-damage.png';
     // this.x = xPos;
     this.y = 1;
     this.init();
     // this.render();
+}
+
+Heart.prototype.checkCollisions = function() {
+    for (enemy in allEnemies) {
+        if(Math.abs(player.x - allEnemies[enemy].x) <= 20
+        && Math.abs(player.y - allEnemies[enemy].y) <= 40
+        && suspGame == false) {
+            this.sprite = this.heartDamage;
+        }
+    }
 }
 
 Heart.prototype.init = function(xPos) {
@@ -260,13 +273,20 @@ Heart.prototype.init = function(xPos) {
     return xPos;
 }
 
-Heart.prototype.update = function(dt) {
+// Heart.prototype.update = function(dt) {
 
-}
+// }
 
 Heart.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
+
+// Heart.prototype.hurt = function() {
+//     if(Math.abs(player.x - allEnemies[enemy].x) <= 20
+//     && Math.abs(player.y - allEnemies[enemy].y) <= 40) {
+//         this.sprite = this.heartDamage;
+//     }
+// }
 
 //###########################################################################
 

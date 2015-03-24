@@ -94,9 +94,9 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        allHearts.forEach(function(heart) {
-            heart.update(dt);
-        });
+        // allHearts.forEach(function(heart) {
+        //     heart.update(dt);
+        // });
         player.update();
     }
 
