@@ -8,10 +8,12 @@ var speeds = [50, 300, 500];
 var suspGame = false;
 var timeoutId;
 
+// delay player respawn when killed
 function delayReset() {
-    timeoutId = window.setTimeout(playerReset, 2500);
+    timeoutId = window.setTimeout(playerReset, 2000);
 }
 
+// reset player position and resume gameplay
 function playerReset() {
     player.x = 202;
     player.y = 465;
@@ -32,7 +34,7 @@ var Enemy = function() {
     this.init();
 }
 
-//** initial emey location **
+// initial emey location
 Enemy.prototype.init = function() {
     this.x = -101;
 }
@@ -45,14 +47,14 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 
-    // ** set enemy speed **
+    // set enemy speed
     this.x = this.x + speeds[1] * dt;
 
-    //** respawn enemy once it passes off screen **
+    // respawn enemy once it passes off screen
     if (this.x > 505) {
         this.init();
 
-        //** random respawning y pos **
+        // random respawning y pos
         this.y = yPos[getRandomInt(0, 3)];
     }
 }
@@ -62,12 +64,13 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
+// Second enemy character
 var Enemy2 = function() {
     this.sprite = 'images/char-cat-girl.png';
     this.init();
 }
 
-//** initial emey location **
+//initial emey location
 Enemy2.prototype.init = function() {
     this.x = -101;
 }
@@ -80,14 +83,14 @@ Enemy2.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 
-    // ** set enemy speed **
+    // set enemy speed
     this.x = this.x + speeds[2] * dt;
 
-    //** respawn enemy once it passes off screen **
+    // respawn enemy once it passes off screen
     if (this.x > 505) {
         this.init();
 
-        //** random respawning y pos **
+        // random respawning y pos
         this.y = yPos[getRandomInt(0, 3)];
     }
 }
@@ -97,12 +100,13 @@ Enemy2.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
+// Third enemy character
 var Enemy3 = function() {
     this.sprite = 'images/char-horn-girl.png';
     this.init();
 }
 
-//** initial emey location **
+// initial emey location
 Enemy3.prototype.init = function() {
     this.x = 505;
 }
@@ -115,13 +119,13 @@ Enemy3.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 
-    //** set enemy speed **
+    // set enemy speed
     this.x = this.x - speeds[1] * dt;
 
-    //** respawn enemy once it passes off screen **
+    // respawn enemy once it passes off screen
     if (this.x < -101) {
         this.init();
-        //** random respawning y pos **
+        // random respawning y pos
         this.y = yPos[getRandomInt(0, 3)];
     }
 }
@@ -153,7 +157,7 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
-//** reset player possition if collision is detected **
+// kills player and susppends gameplay if collision is detected
 Player.prototype.checkCollisions = function() {
     for (enemy in allEnemies) {
         if(Math.abs(this.x - allEnemies[enemy].x) <= 20
