@@ -151,12 +151,6 @@ var Player = function () {
 
 Player.prototype.update = function () {
     this.checkCollisions();
-    // if (this.y === 50) {
-    //     this.x = 202;
-    //     this.y = 465;
-
-    //     console.log('test');
-    // }
 };
 
 Player.prototype.render = function () {
@@ -165,27 +159,20 @@ Player.prototype.render = function () {
 
 // kills player and susppends gameplay if collision is detected
 Player.prototype.checkCollisions = function () {
-    for (enemy in allEnemies) {
-        if (Math.abs(this.x - allEnemies[enemy].x) <= 20 && Math.abs(this.y - allEnemies[enemy].y) <= 40 && suspGame === false) {
-            this.sprite = this.spriteDead;
-            suspGame = true;
-            delayReset();
-        }
-        if (this.y === 50) {
-            player.x = 202;
-            player.y = 465;
+    if (suspGame === false) {
+        for (var enemy in allEnemies) {
+            if (Math.abs(this.x - allEnemies[enemy].x) <= 20 && Math.abs(this.y - allEnemies[enemy].y) <= 40 && suspGame === false) {
+                this.sprite = this.spriteDead;
+                suspGame = true;
+                delayReset();
+            }
+            if (this.y === 50) {
+                player.x = 202;
+                player.y = 465;
+            }
         }
     }
 };
-
-// Player.prototype.reachGrass = function () {
-//     if (this.y < 150) {
-//         this.x = 202;
-//         this.y = 465;
-
-//         console.log('test');
-//     }
-// };
 
 Player.prototype.handleInput = function (movement) {
     if (suspGame === false) {
