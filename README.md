@@ -3,7 +3,8 @@ frontend-nanodegree-arcade-game
 
 Instructions for game-play
 --------------------------
-To play the game, go to phonofidelic.github.io/arcade-game/index.html
+To play the game, go to http://phonofidelic.github.io/arcade-game/index.html
+
 Use arrow keys to navigate player and avoid getting stepped on!
 
 
