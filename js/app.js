@@ -21,8 +21,8 @@ var Enemy = function () {
 };
 
 // initial emey location
-Enemy.prototype.init = function () {
-    this.x = -101;
+Enemy.prototype.init = function (initXpos) {
+    this.x = initXpos;
 };
 
 // Update the enemy's position, required method for game
@@ -37,7 +37,7 @@ Enemy.prototype.update = function (dt) {
     this.x = this.x + speeds[1] * dt;
 
     // respawn enemy once it passes off screen
-    if (this.x > 505) {
+    if (this.x > 505 || this.x < -101) {
         this.init();
 
         // random respawning y pos
@@ -196,14 +196,11 @@ function playerReset () {
 // Place the player object in a variable called player
 var allEnemies = [];
 
-var enemy = new Enemy();
-allEnemies.push(enemy);
+allEnemies.push(new Enemy);
+allEnemies.push(new Enemy);
+allEnemies.push(new Enemy);
 
-var enemy2 = new Enemy2();
-allEnemies.push(enemy2);
-
-var enemy3 = new Enemy3();
-allEnemies.push(enemy3);
+allEnemies[0].init('images/char-boy.png')
 
 var player = new Player();
 
