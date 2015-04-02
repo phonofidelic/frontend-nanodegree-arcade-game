@@ -17,9 +17,7 @@ var Enemy = function (spriteString, spriteSpeed) {
 
     this.sprite = spriteString;
     this.speed = spriteSpeed;
-    // this.x = initPos;
     this.init();
-    // this.spriteSelect();
 };
 
 // initial emey location
