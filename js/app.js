@@ -4,25 +4,31 @@ function getRandomInt(min, max) {
 }
 //global variables
 var yPos = [150, 235, 320];
-var speeds = [200, 300, 500, -300];
+var speeds = [200, 300, 500];
 var suspGame = false;
 var timeoutId;
 // Enemies our player must avoid
-var Enemy = function (spriteString, spriteSpeed) {
+var Enemy = function (spriteString, spriteSpeed, initPos, bool) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
 
+    this.x = initPos;
     this.sprite = spriteString;
     this.speed = spriteSpeed;
-    this.init();
+    this.directionIsRight = bool;
+    // this.init();
 };
 
 // initial emey location
-Enemy.prototype.init = function (initXpos) {
-    this.x = -101;
+Enemy.prototype.init = function () {
+    if (this.directionIsRight === true) {
+        this.x = -80;
+    } else if (this.directionIsRight === false) {
+        this.x = 500
+    }
 };
 
 // Update the enemy's position, required method for game
@@ -34,10 +40,14 @@ Enemy.prototype.update = function (dt) {
     // all computers.
 
     // set enemy speed
-    this.x = this.x + speeds[this.speed] * dt;
+    if (this.directionIsRight === true) {                         //check enemy direction
+        this.x = this.x + speeds[this.speed] * dt;
+    } else {
+        this.x = this.x - speeds[this.speed] * dt;
+    }
 
     // respawn enemy once it passes off screen
-    if (this.x > 505 || this.x < -101) {
+    if ((this.x > 505 && this.directionIsRight === true) || (this.directionIsRight === false && this.x < -500)) {
         this.init();
 
         // random respawning y pos
@@ -125,12 +135,13 @@ function playerReset () {
 // Place the player object in a variable called player
 var allEnemies = [];
 
-allEnemies.push(new Enemy('images/char-boy.png', 0, -101));
-allEnemies.push(new Enemy('images/char-cat-girl.png', 1));
-allEnemies.push(new Enemy('images/char-horn-girl.png', 2));
+allEnemies.push(new Enemy('images/char-boy.png', 0, 50, true));
+allEnemies.push(new Enemy('images/char-cat-girl.png', 1, 50, true));
+allEnemies.push(new Enemy('images/char-horn-girl.png', 2, 50, false));
 
-allEnemies[0].init(-101);
-
+// allEnemies[0].init(-101);
+// allEnemies[1].init(-101);
+// allEnemies[2].init(300);
 
 
 var player = new Player();
